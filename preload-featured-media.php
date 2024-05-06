@@ -16,12 +16,13 @@ namespace NathanDozen3\PreloadFeaturedMedia;
 /**
  * Print the <link>.
  * 
- * @param string $rel
- * @param string $fetchpriority
- * @param string $as
- * @param string $href
- * @param string $type
- * @param string $media
+ * @param string $rel           Defines the relationship between a linked resource and the current document.
+ * @param string $fetchpriority Represents a hint given to the browser on how it should prioritize the fetch of the image relative to other images.
+ * @param string $as            The type of resource.
+ * @param string $href          The path to the resource.
+ * @param string $type          The MIME type of the resource.
+ * @param string $media         Optional. The media query for the resource.
+ * @param string $imagesrcset   Optional. The image srcset for the resource.
  * 
  * @return void
  */
@@ -43,12 +44,12 @@ function print_link(
 	}
 	printf(
 		'<link rel="%1$s" fetchpriority="%2$s" as="%3$s" href="%4$s" type="%5$s" %6$s>',
-		$rel,
-		$fetchpriority,
-		$as,
-		$href,
-		$type,
-		$media_or_imagesrcset,
+		esc_attr( $rel ),
+		esc_attr( $fetchpriority ),
+		esc_attr( $as ),
+		esc_attr( $href ),
+		esc_attr( $type ),
+		esc_attr( $media_or_imagesrcset ),
 	);
 	printf( "\n" );
 }
@@ -56,9 +57,15 @@ function print_link(
 /**
  * Preload the featured media.
  * 
+ * Hooked to `wp_head`, this function will output a `<link rel="preload">` element in the `<head>`.
+ * 
  * @return void
  */
 function preload_media() : void {
+	if( current_action() !== 'wp_head' ) {
+		return;
+	}
+
 	require_once ABSPATH . 'wp-admin/includes/file.php';
 
 	$post_id = get_the_ID();
@@ -66,6 +73,8 @@ function preload_media() : void {
 
 	/**
 	 * Filters the thumbnail ID
+	 * 
+	 * Returning a falsy value will short-circuit printing the `<link>` element.
 	 * 
 	 * @since 0.1.0
 	 */
