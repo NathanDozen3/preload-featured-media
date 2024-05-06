@@ -35,21 +35,15 @@ function print_link(
 	string $media = '',
 	string $imagesrcset = '',
 ) : void {
-	$media_or_imagesrcset = '';
-	if( $media ) {
-		$media_or_imagesrcset = 'media="' . $media . '"';
-	}
-	else if( $imagesrcset ) {
-		$media_or_imagesrcset = 'imagesrcset="' . $imagesrcset . '"';
-	}
 	printf(
-		'<link rel="%1$s" fetchpriority="%2$s" as="%3$s" href="%4$s" type="%5$s" %6$s>',
+		'<link rel="%1$s" fetchpriority="%2$s" as="%3$s" href="%4$s" type="%5$s" media="%6$s" imagesrcset="%7$s">',
 		esc_attr( $rel ),
 		esc_attr( $fetchpriority ),
 		esc_attr( $as ),
 		esc_attr( $href ),
 		esc_attr( $type ),
-		esc_attr( $media_or_imagesrcset ),
+		esc_attr( $media ),
+		esc_attr( $imagesrcset ),
 	);
 	printf( "\n" );
 }
@@ -81,18 +75,14 @@ function preload_media() : void {
 	$thumbnail_id = apply_filters( 'NathanDozen3\PreloadFeaturedMedia\thumbnail_id', get_post_thumbnail_id( $post_id ) );
 	if( ! $thumbnail_id ) return;
 
+	$type = get_post_mime_type( $thumbnail_id );
+
 	/**
 	 * Filters the thumbnail size
 	 */
 	$thumbnail_size = apply_filters( 'NathanDozen3\PreloadFeaturedMedia\thumbnail_size', 'full' );
 
-	$desktop_href = wp_get_attachment_image_url( $thumbnail_id, $thumbnail_size );
-	$link = str_replace( trailingslashit( get_site_url() ), get_home_path(), $desktop_href );
-
-	if( ! $link ) return;
-
-	$type = exif_imagetype( $link );
-	$mime = image_type_to_mime_type( $type );
+	$href = wp_get_attachment_image_url( $thumbnail_id, $thumbnail_size );
 
 	/**
 	 * Filters the image srcset.
@@ -106,8 +96,8 @@ function preload_media() : void {
 			rel: 'preload',
 			fetchpriority: 'high',
 			as: 'image',
-			href: $desktop_href,
-			type: $mime,
+			href: $href,
+			type: $type,
 			imagesrcset: $imagesrcset,
 		);
 		return;
@@ -146,7 +136,7 @@ function preload_media() : void {
 			fetchpriority: 'high',
 			as: 'image',
 			href: wp_get_attachment_image_url( $thumbnail_id, $size ),
-			type: $mime,
+			type: $type,
 			media: $media
 		);
 	}
