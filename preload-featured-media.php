@@ -87,6 +87,8 @@ function preload_media() : void {
 	/**
 	 * Filters the image srcset.
 	 * 
+	 * Manually edit the imagesrcset property or return a falsy value to use media queries.
+	 * 
 	 * @since 0.1.0
 	 */
 	$imagesrcset = apply_filters( 'NathanDozen3\PreloadFeaturedMedia\imagesrcset', wp_get_attachment_image_srcset( $thumbnail_id, $thumbnail_size ) );
