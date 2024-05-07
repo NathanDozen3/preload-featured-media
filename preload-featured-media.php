@@ -11,6 +11,7 @@
  * Text Domain:       preload-featured-media
  */
 
+declare(strict_types=1);
 namespace NathanDozen3\PreloadFeaturedMedia;
 
 /**
