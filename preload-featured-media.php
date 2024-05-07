@@ -61,9 +61,8 @@ function preload_media() : void {
 		return;
 	}
 
-	require_once ABSPATH . 'wp-admin/includes/file.php';
-
 	$post_id = get_the_ID();
+	is_archive() && $post_id = -1;
 	is_home() && $post_id =  get_option( 'page_for_posts' );
 
 	/**
