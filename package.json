@@ -6,7 +6,8 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "test:phpstan": "vendor/bin/phpstan analyze --memory-limit=1024M"
+    "test:phpstan": "vendor/bin/phpstan analyze --memory-limit=1024M",
+    "test:phpcs": "vendor/bin/phpcs ."
   },
   "repository": {
     "type": "git",
