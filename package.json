@@ -1,0 +1,21 @@
+{
+  "name": "preload-featured-media",
+  "version": "0.1.0",
+  "description": "Preload images on pages, posts and custom post types.",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:phpstan": "vendor/bin/phpstan analyze --memory-limit=1024M"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NathanDozen3/preload-featured-media.git"
+  },
+  "author": "Nathan Johnson",
+  "license": "GPL-2.0-or-later",
+  "bugs": {
+    "url": "https://github.com/NathanDozen3/preload-featured-media/issues"
+  },
+  "homepage": "https://github.com/NathanDozen3/preload-featured-media#readme"
+}

@@ -87,7 +87,7 @@ final class PreloadFeaturedMedia {
 	 * @param int $thumbnail_id
 	 * @param string $thumbnail_size
 	 * @param string $imagesrcset
-	 * @param array $sizes
+	 * @param array<string, array<string,int>> $sizes
 	 * 
  	 * @since 0.1.0
 	 * 
@@ -144,7 +144,7 @@ final class PreloadFeaturedMedia {
 				rel: 'preload',
 				fetchpriority: 'high',
 				as: 'image',
-				href: wp_get_attachment_image_url( $thumbnail_id, $size ),
+				href: (string) wp_get_attachment_image_url( $thumbnail_id, $size ),
 				type: $type,
 				media: $media
 			);
@@ -183,14 +183,22 @@ final class PreloadFeaturedMedia {
 
 		$post_id = (int) get_the_ID();
 		is_archive() && $post_id = -1;
-		is_home() && $post_id = (int) get_option( 'page_for_posts' );
+
+		if( is_home() ) {
+			$page_for_posts = get_option( 'page_for_posts' );
+			if( ! is_integer( $page_for_posts ) ) {
+				$page_for_posts = 0;
+			}
+			$post_id = intval( $page_for_posts );
+		}
 
 		/**
 		 * Filters the thumbnail ID
 		 * 
 		 * Returning a falsy value will short-circuit printing the `<link>` element.
 		 * 
-		 * @param int $post_id
+		 * @param int|false $thumbnail_id
+		 * @param int       $post_id
 		 * 
 		 * @since 0.1.0
 		 */
@@ -203,7 +211,8 @@ final class PreloadFeaturedMedia {
 		/**
 		 * Filters the thumbnail size
 		 * 
-		 * @param int $thumbnail_id
+		 * @param string|false $thumbnail_size
+		 * @param int          $thumbnail_id
 		 * 
 		 * @since 0.1.0
 		 */
@@ -218,7 +227,8 @@ final class PreloadFeaturedMedia {
 		 * 
 		 * Manually edit the imagesrcset property or return a falsy value to use media queries.
 		 *
-		 * @param int $thumbnail_id
+		 * @param string|false $image_srcset
+		 * @param int          $thumbnail_id
 		 * 
 		 * @since 0.1.0
 		 */
@@ -231,7 +241,8 @@ final class PreloadFeaturedMedia {
 		/**
 		 * Filters the media sizes
 		 * 
-		 * @param int $thumbnail_id
+		 * @param array $image_subsizes
+		 * @param int   $thumbnail_id
 		 * 
 		 * @since 0.1.0
 		 */
@@ -251,6 +262,6 @@ final class PreloadFeaturedMedia {
 }
 
 /**
- * Add the preflightPreloadFeaturedMedia method to the wp_head hook.
+ * Add the preflightPreloadFeaturedMedia method to the `wp_head` hook.
  */
 add_action( 'wp_head', [ PreloadFeaturedMedia::instance(), 'preflightPreloadFeaturedMedia' ], 1 );
