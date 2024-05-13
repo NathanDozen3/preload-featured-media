@@ -1,5 +1,11 @@
 <?php
 /**
+ * @package           NathanDozen3\PreloadFeaturedMedia
+ * @author            Nathan Johnson
+ * @copyright         2024 Nathan Johnson
+ * @license           GPL-2.0-or-later
+ * 
+ * @wordpress-plugin
  * Plugin Name:       Preload Featured Media
  * Description:       Preload images on pages, posts and custom post types.
  * Requires at least: 6.2
@@ -14,6 +20,11 @@
 declare(strict_types=1);
 namespace NathanDozen3\PreloadFeaturedMedia;
 
+/**
+ * Class used to implement the preloading of featured media.
+ * 
+ * @since 0.1.0
+ */
 final class PreloadFeaturedMedia {
 
 	/**
