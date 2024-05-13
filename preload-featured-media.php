@@ -29,12 +29,16 @@ final class PreloadFeaturedMedia {
 
 	/**
 	 * @var self Singleton instance.
+	 * 
+ 	 * @since 0.1.0
 	 */
 	private static ?self $_instance = null;
 
 
 	/**
 	 * Private constructor.
+	 * 
+ 	 * @since 0.1.0
 	 */
 	private function __construct(){}
 
@@ -49,6 +53,8 @@ final class PreloadFeaturedMedia {
 	 * @param string $type          The MIME type of the resource.
 	 * @param string $media         Optional. The media query for the resource.
 	 * @param string $imagesrcset   Optional. The image srcset for the resource.
+	 * 
+ 	 * @since 0.1.0
 	 * 
 	 * @return void
 	 */
@@ -82,6 +88,8 @@ final class PreloadFeaturedMedia {
 	 * @param string $thumbnail_size
 	 * @param string $imagesrcset
 	 * @param array $sizes
+	 * 
+ 	 * @since 0.1.0
 	 * 
 	 * @return void
 	 */
@@ -147,6 +155,8 @@ final class PreloadFeaturedMedia {
 	/**
 	 * Get singleton instance of PreloadFeaturedMedia object.
 	 * 
+ 	 * @since 0.1.0
+	 * 
 	 * @return self
 	 */
 	public static function instance() : self {
@@ -161,6 +171,10 @@ final class PreloadFeaturedMedia {
 	 * Maybe preload the featured media.
 	 *
 	 * When hooked to `wp_head`, this function will output a `<link rel="preload">` element in the `<head>`.
+	 * 
+ 	 * @since 0.1.0
+	 *
+	 * @return void
 	 */
 	public function preflightPreloadFeaturedMedia() : void {
 		if( current_action() !== 'wp_head' ) {
@@ -239,5 +253,4 @@ final class PreloadFeaturedMedia {
 /**
  * Add the preflightPreloadFeaturedMedia method to the wp_head hook.
  */
-$preloadFeaturedMedia = PreloadFeaturedMedia::instance();
-add_action( 'wp_head', [ $preloadFeaturedMedia, 'preflightPreloadFeaturedMedia' ], 1 );
+add_action( 'wp_head', [ PreloadFeaturedMedia::instance(), 'preflightPreloadFeaturedMedia' ], 1 );
