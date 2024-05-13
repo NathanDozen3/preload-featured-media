@@ -1,4 +1,4 @@
-# preload-featured-media
+# Preload Featured Media
 
 * Contributors: NathanAtmoz
 * Tags: featured image, preload
